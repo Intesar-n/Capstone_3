@@ -140,7 +140,7 @@ if not st.session_state['submitted']:
                 right: 30;
                 left:45%;
                 top: 80%;
-                bottom: 10;
+                bottom: 70%;
            
             transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
             font-size: 16px; /* Adjusted font size for clarity */
