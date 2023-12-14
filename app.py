@@ -138,7 +138,7 @@ if not st.session_state['submitted']:
             margin: 0.75rem 0;
              position: fixed;
                 right: 30;
-                left:45%;
+                left:47%;
                 top: 80%;
                 bottom: 70%;
            
