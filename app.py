@@ -61,23 +61,6 @@ st.markdown("""
                color: #126C85;
             }
 
-            .stButton > button {
-            color: #ffffff;
-            background-color: #126C85;
-            border: 2px solid transparent; /* Adjusted for a clear border */
-            border-radius: 4px;
-            padding: 0.75rem 1.5rem;
-            margin: 0.75rem 0;
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
-            font-size: 16px; /* Adjusted font size for clarity */
-            line-height: 1.5; /* Line height for better text alignment */
-        }
-
-        .stButton > button:hover {
-            background-color: #269BBB;
-            border-color: #269BBB; /* Border color change on hover for consistency */
-            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* Optional: Adds a slight shadow for depth */
-        }
 
 
 
@@ -145,6 +128,30 @@ if not st.session_state['submitted']:
     # HTML string with the video element
         video_html = f"""
     <style>
+    
+            .stButton > button {{
+            color: #ffffff;
+            background-color: #126C85;
+            border: 2px solid transparent; /* Adjusted for a clear border */
+            border-radius: 4px;
+            padding: 0.75rem 1.5rem;
+            margin: 0.75rem 0;
+             position: fixed;
+                right: 30;
+                left:45%;
+                top: 80%;
+                bottom: 10;
+           
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition for hover effect */
+            font-size: 16px; /* Adjusted font size for clarity */
+            line-height: 1.5; /* Line height for better text alignment */
+        }}
+
+        .stButton > button:hover {{
+            background-color: #269BBB;
+            border-color: #269BBB; /* Border color change on hover for consistency */
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2); /* Optional: Adds a slight shadow for depth */
+        }}
     .video-container {{
         position: fixed;
         right: 0;
@@ -156,6 +163,7 @@ if not st.session_state['submitted']:
     .stApp {{
         background: transparent;
     }}
+    
     </style>
     <div class="video-container">
         <video autoplay loop muted controls style="height:100%;width:100%">
@@ -168,41 +176,7 @@ if not st.session_state['submitted']:
         st.markdown(video_html, unsafe_allow_html=True)
         # st.markdown("----", unsafe_allow_html=True)
         # st.subheader("Welcome to..")
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
-        st.write('')
+  
        
         # st.title('Credit Card Fraud Detection')
         # st.subheader("The PERFECT place to manage your Fraud with the touch of machine learning")
@@ -289,12 +263,12 @@ if st.session_state['submitted']:
     """
     st.markdown(page_bg_img, unsafe_allow_html=True)
 
-    tab1, tab2,tab3,tab4 = st.tabs(["Cluster Analysis", "Visualzation","Upload Csv :sunglasses:",'Details'])
+    tab1, tab2,tab3,tab4 = st.tabs(["Cluster Analysis", "Visualzation","Upload CSV ",'Details :sunglasses:'])
     with tab4:
         st.markdown('''# Fraud Detection Project
 
-Welcome to the **Fraud Detection Project**, the culminating endeavor of the Capstone Series.
-
+## Welcome to the :red[**Fraud Detection Project**] the culminating endeavor of the Capstone Series.
+---
 ## Project Overview
 
 In this project, we address significant challenges such as limited domain knowledge and the handling of imbalanced datasets in the realm of fraud detection. The primary focus lies in the analysis of transactional values rather than column names, coupled with the implementation of various sophisticated machine learning algorithms and techniques to manage unbalanced data.
@@ -383,16 +357,19 @@ Through comprehensive EDA, data visualization, and the training of five models (
                     
     with tab3:
         st.title('Credit Card Fraud Detection')
-        st.write('Please upload your CSV file for prediction.')
+        st.write("")
+        st.write("")
+        st.subheader('Please upload your CSV file for prediction:')
+        st.write("")
 
         # File uploader
-
         uploaded_file = st.sidebar.file_uploader("Choose a file")
         if uploaded_file is not None:
             data = pd.read_csv(uploaded_file)
             data1 = data.copy()
             predictions = model.predict(data)
             data1['Class'] = predictions
+            
 
             data1['Hour'] = data1['Time'].apply(lambda x : np.floor(x/3600))
             edadf = pd.DataFrame(data1.groupby(['Hour','Class'])['Amount'].aggregate(['min','max','count','sum','mean','median','var']).reset_index())
@@ -400,6 +377,7 @@ Through comprehensive EDA, data visualization, and the training of five models (
             
         ############################################################################
         # To calculate the values for the indicator
+            
             for i in predictions[:]:
                 if i == 1: 
                     count = count + 1 
@@ -407,21 +385,25 @@ Through comprehensive EDA, data visualization, and the training of five models (
                 sum = ii + sum
             for ii in data1[data1['Class']==1]['Amount']:
                 sum_frud = ii + sum_frud
-
+                
+            
             with st.expander("Data"):
                 st.dataframe(data)
             m , mm = st.columns([0.3,0.3])
+            
 
         ########################################################################
         # plot the frud and not frud indcators
         try:
+            
             fig = go.Figure(go.Indicator(
                     mode="gauge+number",
                     value=count,
-                    title={'text': "Frud"},
+                    title={'text': "Fraud"},
                     domain={'x': [0, 1], 'y': [0, 1]},
                     gauge={'axis': {'range': [0, len(predictions)]}}  # Set the range here
                     ))
+            
             fig.update_layout(
                 height=200,
                 margin=dict(l=10, r=10, t=50, b=10, pad=8),
@@ -431,7 +413,7 @@ Through comprehensive EDA, data visualization, and the training of five models (
             fig = go.Figure(go.Indicator(
                     mode="gauge+number",
                     value=len(predictions)-count,
-                    title={'text': "Not Frud"},
+                    title={'text': "Not Fraud"},
                     domain={'x': [0, 1], 'y': [0, 1]},
                     gauge={'axis': {'range': [0, len(predictions)]}}  # Set the range here
                     ))
@@ -439,19 +421,23 @@ Through comprehensive EDA, data visualization, and the training of five models (
                 height=200,
                 margin=dict(l=10, r=10, t=50, b=10, pad=8),
             )
+            st.write("")
+            
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
             mm.plotly_chart(fig)
 
         ################################################################
         # calculate the amount
-                
-            st.title('-------------------The Amount-------------------')
+            st.write("")
+            st.write("")
+            st.write("")    
+            st.title('The Amount')
             n , nn = st.columns([0.3,0.3])
 
             fig = go.Figure(go.Indicator(
                     mode="gauge+number",
                     value=sum_frud,
-                    title={'text': "Frud"},
+                    title={'text': "Fraud"},
                     domain={'x': [0, 1], 'y': [0, 1]},
                     gauge={'axis': {'range': [0, sum]}}  # Set the range here
                     ))
@@ -466,7 +452,7 @@ Through comprehensive EDA, data visualization, and the training of five models (
             fig = go.Figure(go.Indicator(
                     mode="gauge+number",
                     value=sum-sum_frud,
-                    title={'text': "Frud"},
+                    title={'text': "Fraud"},
                     domain={'x': [0, 1], 'y': [0, 1]},
                     gauge={'axis': {'range': [0, sum]}}  # Set the range here
                     ))
@@ -476,12 +462,19 @@ Through comprehensive EDA, data visualization, and the training of five models (
             )
             fig.update_layout(paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
             n.plotly_chart(fig)
-            with st.expander("Data Frud"):
+            st.write("")
+            st.write("")
+            st.write("")
+            st.write("")
+            with st.expander("Data Fraud"):
                 st.dataframe(data1[data1['Class']==1])
             fig1, fig2, fig3, fig4, fig5, fig6 = plot_data(edadf)
         except NameError:
             pass
     with tab2: 
+        st.write("")
+        st.write("")
+        st.write("")
 
         try:
             with st.expander("Data"):
@@ -496,7 +489,15 @@ Through comprehensive EDA, data visualization, and the training of five models (
         except:pass
     with tab1: 
         k = st.slider('Select the number of clusters (k)', min_value=2, max_value=6)
-        submitted11 = st.button("Let's GO")
-        if submitted11:
-            st.image('vecteezy_lasagna-png-with-ai-generated_26757687.png')
+       
+        col1,col2,col3= st.columns([0.5,0.8,0.5])
+        with col2:
+            col2.submitted11 = st.button("Let's GO")
+            if col2.submitted11:
+                
+                    st.write("")
+                    st.write("")
+                    st.subheader("Yeah we know what you expected :sunglasses:")
+                    st.write("---")                  
+                    st.image('vecteezy_lasagna-png-with-ai-generated_26757687.png')
 
